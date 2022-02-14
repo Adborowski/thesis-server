@@ -18,7 +18,7 @@ app.use("/data", (req, res, next) => {
 app.use("/", (req, res, next) => {
   console.log("In another middleware!");
   res.send(
-    "<h2 style='font-family: Helvetica'>Ale w końcu się udało postawić backend</h2>"
+    "<h3 style='max-width: 300px; font-family: Helvetica'>Jeśli chcecie śledzić rozwój mojej apki, zapraszam na moją nową specjalną stronę www </h3>"
   );
 });
 
