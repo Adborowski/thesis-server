@@ -7,6 +7,7 @@ const server = http.createServer((req, res) => {
 
   // the nothing route
   if (url === "/") {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
     res.write("<html>");
     res.write("<head><title>Enter Message</title><head>");
     res.write(
