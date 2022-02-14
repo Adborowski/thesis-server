@@ -2,6 +2,8 @@ const express = require("express");
 
 const app = express();
 
+console.log("Server running");
+
 app.use("/", (req, res, next) => {
   console.log("This always runs!");
   next();
