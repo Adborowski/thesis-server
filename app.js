@@ -17,7 +17,9 @@ app.use("/data", (req, res, next) => {
 
 app.use("/", (req, res, next) => {
   console.log("In another middleware!");
-  res.send("<h1>Hello from Express!</h1>");
+  res.send(
+    "<h2 style='font-family: Helvetica'>Ale w końcu się udało postawić backend</h2>"
+  );
 });
 
 app.listen(3000);
