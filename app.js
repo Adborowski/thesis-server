@@ -1,22 +1,21 @@
-const http = require("http");
-const fs = require("fs");
 const express = require("express");
 
 const app = express();
 
-app.use((req, res, next) => {
-  // this gets executed for every incoming request
-  console.log("In a middleware");
-  next(); // move to next middleware
+app.use("/", (req, res, next) => {
+  console.log("This always runs!");
+  next();
 });
 
-app.use((req, res, next) => {
-  // this gets executed for every incoming request
-  console.log("In another middleware");
-  res.write("<h1>hello</h1>");
-  res.end;
+// prettier-ignore
+app.use("/data", (req, res, next) => {
+  console.log("Sending JSON!");
+  res.send({"id": "a1"});
 });
 
-const server = http.createServer(app);
+app.use("/", (req, res, next) => {
+  console.log("In another middleware!");
+  res.send("<h1>Hello from Express!</h1>");
+});
 
-server.listen(3000);
+app.listen(3000);
