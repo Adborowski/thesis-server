@@ -16,4 +16,4 @@ app.use("/", (req, res, next) => {
 
 const port = 3000;
 console.log(`Server running`);
-app.listen(port);
+app.listen(3000);
