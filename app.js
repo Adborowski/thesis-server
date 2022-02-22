@@ -12,7 +12,7 @@ app.use("/data", (err, req, res, next) => {
 });
 
 app.use("/", (req, res, next) => {
-  console.log("In the / route");
+  console.log(req);
 });
 
 app.listen(3000);
