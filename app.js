@@ -14,8 +14,12 @@ app.use("/data", (err, req, res, next) => {
 app.use("/", (req, res, next) => {
   console.log("New Request from IP ", req.ip);
   console.log("Hostname ", req.hostname);
-  console.log(req.body);
-  console.log("///// END /////");
+  console.log("Query ", req.query);
+  console.log(" ");
+});
+
+app.use("/.well-known/acme-challenge/", (req, res, next) => {
+  console.log("acme-challenge visited");
 });
 
 app.listen(3000);
