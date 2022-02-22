@@ -12,7 +12,10 @@ app.use("/data", (err, req, res, next) => {
 });
 
 app.use("/", (req, res, next) => {
-  console.log(req);
+  console.log("New Request from IP ", req.ip);
+  console.log("Hostname ", req.hostname);
+  console.log(req.body);
+  console.log("///// END /////");
 });
 
 app.listen(3000);
