@@ -1,25 +1,32 @@
-const express = require("express");
-const path = require("path");
+// Congratulations! Your certificate and chain have been saved at:
+//    /etc/letsencrypt/live/tiszuk.com/fullchain.pem
+//    Your key file has been saved at:
+//    /etc/letsencrypt/live/tiszuk.com/privkey.pem
+
+const express = require('express');
+const cors = require('cors');
+
+const https = require('https');
+const http = require('http');
+
+const fs = require('fs');
+
+
 const app = express();
+app.use(cors());
+app.use(express.static('public'));
 
-app.use(express.static("public"));
+// Listen both http & https ports
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/tiszuk.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/tiszuk.com/fullchain.pem'),
+}, app);
 
-// prettier-ignore
-app.use("/data", (err, req, res, next) => {
-  console.log(err);
-  console.log("In the /data route");
-  res.send({"id": "a1"});
+httpServer.listen(80, () => {
+    console.log('HTTP Server running on port 80');
 });
 
-app.use("/.well-known/acme-challenge/", (req, res, next) => {
-  console.log("acme-challenge visited");
+httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
 });
-
-app.use("/", (req, res, next) => {
-  console.log("New Request from IP ", req.ip);
-  console.log("Hostname ", req.hostname);
-  console.log("Query ", req.query);
-  console.log(" ");
-});
-
-app.listen(3000);
