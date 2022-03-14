@@ -6,6 +6,19 @@ const http = require('http');
 
 const fs = require('fs');
 const routes = require('./api');
+require('dotenv').config();
+
+const mongoose = require('mongoose');
+// Connect to the database
+mongoose
+  .connect(process.env.DB, { useNewUrlParser: true })
+  .then(() => console.log(`Database connected successfully`))
+  .catch((err) => console.log(err));
+
+// Since mongoose's Promise is deprecated, we override it with Node's Promise
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+console.log(db.users);
 
 const app = express();
 app.use(cors());
@@ -19,7 +32,13 @@ app.use(function(request, response, next) {
   next();
 })
 
-// Listen both http & https ports
+// report errors
+app.use((err, req, res, next) => {
+  console.log(err);
+  next();
+});
+
+// Listen to both http & https ports
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/tiszuk.com/privkey.pem'),
@@ -40,7 +59,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// www.domain.com/api/tasks
+// www.domain.com/route
 app.use(routes);
 
 // serve the frontend from the 'public' folder (react's 'build' folder)
