@@ -20,4 +20,4 @@ const UserSchema = new Schema({
 // Create model for todo
 const User = mongoose.model('user', UserSchema);
 
-module.exports = Task;
+module.exports = User;

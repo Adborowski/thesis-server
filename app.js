@@ -8,10 +8,16 @@ const fs = require('fs');
 const routes = require('./api');
 require('dotenv').config();
 
-const mongoose = require('mongoose');
 // Connect to the database
+const mongoose = require('mongoose');
+
+const connectionParams = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true 
+}
+
 mongoose
-  .connect(process.env.DB, { useNewUrlParser: true })
+  .connect(process.env.DB, connectionParams)
   .then(() => console.log(`Database connected successfully`))
   .catch((err) => console.log(err));
 

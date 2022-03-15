@@ -10,6 +10,10 @@ const TaskSchema = new Schema({
   reward: {
       type: Number,
       required: [true, 'A task must have a reward']
+  },
+  latlng: {
+    type: [Number],
+    required: [true, 'There must be a location']
   }
 });
 
