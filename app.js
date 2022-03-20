@@ -6,6 +6,8 @@ const http = require('http');
 
 const fs = require('fs');
 const routes = require('./api');
+let bodyParser = require('body-parser');
+
 require('dotenv').config();
 
 // Connect to the database
@@ -28,6 +30,11 @@ console.log(db.users);
 
 const app = express();
 app.use(cors());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // force redirect from HTTP to HTTPS
 app.enable('trust proxy');

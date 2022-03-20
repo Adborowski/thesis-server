@@ -3,6 +3,14 @@ const Schema = mongoose.Schema;
 
 // Create schema for todo
 const TaskSchema = new Schema({
+  id: {
+    type: Number,
+    required: true
+  },
+  ownerId: {
+    type: Number,
+    required: true
+  },
   title: {
     type: String,
     required: [true, 'A task must have a title'],
@@ -11,9 +19,17 @@ const TaskSchema = new Schema({
       type: Number,
       required: [true, 'A task must have a reward']
   },
+  description: {
+    type: String,
+    required: [true, "A task must have a description"]
+  },
   latlng: {
-    type: [Number],
+    type: [Object],
     required: [true, 'There must be a location']
+  },
+  media:{
+    type: [String],
+    required: [true, 'There must be media']
   }
 });
 
