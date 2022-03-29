@@ -8,6 +8,8 @@ const fs = require('fs');
 const routes = require('./api');
 let bodyParser = require('body-parser');
 
+const multer = require("multer");
+
 require('dotenv').config();
 
 // Connect to the database
