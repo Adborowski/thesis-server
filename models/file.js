@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 
 const fileSchema = new Schema({
+    url:{
+        type: String,
+        required: false
+    },
     size: {
         type: Number,
         required: false

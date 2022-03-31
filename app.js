@@ -3,12 +3,13 @@ const cors = require('cors');
 
 const https = require('https');
 const http = require('http');
-
+const fileUpload = require('express-fileupload');
 const fs = require('fs');
+const morgan = require('morgan');
+const _ = require('lodash');
 const routes = require('./api');
 let bodyParser = require('body-parser');
-
-const multer = require("multer");
+const multer  = require('multer')
 
 require('dotenv').config();
 
@@ -25,18 +26,47 @@ mongoose
   .then(() => console.log(`Database connected successfully`))
   .catch((err) => console.log(err));
 
-// Since mongoose's Promise is deprecated, we override it with Node's Promise
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-console.log(db.users);
 
 const app = express();
+
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
+
+
 app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(morgan('dev'));
+
+const storageEngine = multer.diskStorage ({
+  destination: './public/uploads/',
+  filename: function (req, file, callback) {
+    callback (
+      null,
+      file.fieldname + '-' + Date.now () + path.extname (file.originalname)
+    );
+  },
+});
+
+const upload = multer ({
+storage: storageEngine,               
+});
+
+app.post ('/upload-media', upload.single ('uploadedFile'), (req, res) => {
+  console.log("UPLOADED MEDIA:");
+  console.log(req);
+  console.log(req.file);
+  console.log(req.body);
+  res.json (req.file).status (200);
+});
+
 
 // force redirect from HTTP to HTTPS
 app.enable('trust proxy');
