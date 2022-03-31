@@ -63,23 +63,25 @@ const upload = multer({
 
 const obj = (req, res) => {
   upload(req, res, () => {
-    console.log("Request ---", req.files); //Here you get file.
-    // const file = new File();
-    // file.meta_data = req.files.uploadedFile;
-    // console.log("FILE NAME:", req.files.uploadedFile.name);
-    // console.log(
-    //   "FILE NAME B:",
-    //   `${__dirname}/public/uploads/${req.files.uploadedFile.name}`
-    // );
+    // console.log("Request ---", req.files.uploadedFile); //Here you get file.
 
-    // file.save().then(() => {
-    //   res.send({ message: "uploaded successfully" });
-    // });
+    console.log(req.files.length);
+    for (var uploadedFile of req.files.uploadedFile) {
+      console.log(uploadedFile);
 
-    // req.files.uploadedFile.mv(
-    //   `${__dirname}/public/uploads/${req.files.uploadedFile.name}`,
-    //   (err) => {}
-    // );
+      const file = new File();
+      file.meta_data = uploadedFile;
+      console.log("FILE NAME:", uploadedFile.name);
+
+      file.save().then(() => {
+        // res.send({ message: "uploaded successfully" });
+      });
+
+      uploadedFile.mv(
+        `${__dirname}/public/uploads/${uploadedFile.name}`,
+        (err) => {}
+      );
+    }
   });
 };
 
