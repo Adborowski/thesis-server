@@ -1,39 +1,39 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create schema for todo
 const TaskSchema = new Schema({
   id: {
     type: Number,
-    required: true
+    required: true,
   },
   ownerId: {
     type: Number,
-    required: true
+    required: true,
   },
   title: {
     type: String,
-    required: [true, 'A task must have a title'],
+    required: [true, "A task must have a title"],
   },
   reward: {
-      type: Number,
-      required: [true, 'A task must have a reward']
+    type: Number,
+    required: [true, "A task must have a reward"],
   },
   description: {
     type: String,
-    required: [true, "A task must have a description"]
+    required: [true, "A task must have a description"],
   },
   latlng: {
-    type: [Object],
-    required: [true, 'There must be a location']
+    type: [Number],
+    required: [true, "There must be a location"],
   },
-  media:{
+  media: {
     type: [String],
-    required: [true, 'There must be media']
-  }
+    required: [true, "There must be media"],
+  },
 });
 
 // Create model for todo
-const Task = mongoose.model('task', TaskSchema);
+const Task = mongoose.model("task", TaskSchema);
 
 module.exports = Task;

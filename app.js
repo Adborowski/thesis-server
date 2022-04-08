@@ -41,6 +41,8 @@ app.use(
 
 app.use(cors());
 
+app.use(express.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -48,53 +50,6 @@ app.use(
   })
 );
 app.use(morgan("dev"));
-
-const storage = multer.diskStorage({
-  destination: "./public/",
-  filename: function (req, file, cb) {
-    cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 },
-}).single("uploadedFile");
-
-const obj = (req, res) => {
-  upload(req, res, () => {
-    // console.log("Request ---", req.files.uploadedFile); //Here you get file.
-
-    console.log(req.files.length);
-    for (var uploadedFile of req.files.uploadedFile) {
-      console.log(uploadedFile);
-
-      const file = new File();
-      file.meta_data = uploadedFile;
-      console.log("FILE NAME:", uploadedFile.name);
-
-      file.save().then(() => {
-        // res.send({ message: "uploaded successfully" });
-      });
-
-      uploadedFile.mv(
-        `${__dirname}/public/uploads/${uploadedFile.name}`,
-        (err) => {}
-      );
-    }
-  });
-};
-
-app.post("/upload-media", obj);
-
-// force redirect from HTTP to HTTPS
-// app.enable("trust proxy");
-// app.use(function (request, response, next) {
-//   if (process.env.NODE_ENV != "development" && !request.secure) {
-//     return response.redirect("https://" + request.headers.host + request.url);
-//   }
-//   next();
-// });
 
 // report errors
 app.use((err, req, res, next) => {
