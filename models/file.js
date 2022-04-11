@@ -1,12 +1,19 @@
 var mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const fileSchema = new Schema({
-  filename: {
+const fileSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: [true, "file must have a name"],
   },
+  data: {
+    type: String,
+    required: [true, "file must have data"],
+  },
+  id: {
+    type: String,
+    required: [true, "file must have id"],
+  },
 });
 
-const File = mongoose.model("file", fileSchema);
+const File = mongoose.model("file", fileSchema, "images");
 module.exports = File;

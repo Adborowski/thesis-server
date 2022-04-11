@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-
 const https = require("https");
 const http = require("http");
 const fileUpload = require("express-fileupload");
@@ -8,27 +7,29 @@ const fs = require("fs");
 const morgan = require("morgan");
 const _ = require("lodash");
 const routes = require("./api");
-let bodyParser = require("body-parser");
 const multer = require("multer");
 const File = require("./models/file");
-
 require("dotenv").config();
 
-// Connect to the database
-const mongoose = require("mongoose");
+const connectToDatabase = () => {
+  const mongoose = require("mongoose");
 
-const connectionParams = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  const connectionParams = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  };
+
+  mongoose
+    .connect(process.env.DB, connectionParams)
+    .then(() => console.log(`Database connected successfully`))
+    .catch((err) => console.log(err));
+
+  mongoose.Promise = global.Promise;
+  const db = mongoose.connection;
+  return db;
 };
 
-mongoose
-  .connect(process.env.DB, connectionParams)
-  .then(() => console.log(`Database connected successfully`))
-  .catch((err) => console.log(err));
-
-mongoose.Promise = global.Promise;
-const db = mongoose.connection;
+const db = connectToDatabase();
 
 const app = express();
 
@@ -40,15 +41,6 @@ app.use(
 );
 
 app.use(cors());
-
-app.use(express.urlencoded({ extended: true }));
-
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
 app.use(morgan("dev"));
 
 // report errors
